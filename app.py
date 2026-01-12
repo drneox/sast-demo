@@ -64,4 +64,6 @@ def delete_user(user_id):
 
 if __name__ == '__main__':
     init_db()
-    app.run(debug=True)
+    # SECURITY WARNING: Debug mode should be disabled in production
+    debug_mode = os.environ.get('FLASK_DEBUG', 'False').lower() == 'true'
+    app.run(debug=debug_mode)
