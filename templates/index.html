@@ -82,6 +82,14 @@
         
         <a href="{{ url_for('add_user') }}" class="button">Add New User</a>
         
+        <form method="GET" action="{{ url_for('search_user') }}" style="margin: 20px 0;">
+            <input type="text" name="q" placeholder="Search users by name or email..." value="{{ search_query or '' }}" style="padding: 10px; width: 70%; border: 1px solid #ddd; border-radius: 5px;">
+            <button type="submit" class="button" style="margin-left: 10px;">Search</button>
+            {% if search_query %}
+            <a href="{{ url_for('index') }}" class="button button-secondary" style="background-color: #6c757d; margin-left: 5px;">Clear</a>
+            {% endif %}
+        </form>
+        
         <table>
             <thead>
                 <tr>
