@@ -62,6 +62,22 @@ def delete_user(user_id):
     flash('User deleted successfully!')
     return redirect(url_for('index'))
 
+@app.route('/search')
+def search_user():
+    search_query = request.args.get('q', '')
+    conn = get_db_connection()
+    
+    if search_query:
+        # VULNERABILITY: SQL Injection - user input directly concatenated into SQL query
+        # This is intentionally vulnerable for CodeQL testing purposes
+        query = "SELECT * FROM users WHERE name LIKE '%" + search_query + "%' OR email LIKE '%" + search_query + "%'"
+        users = conn.execute(query).fetchall()
+    else:
+        users = conn.execute('SELECT * FROM users').fetchall()
+    
+    conn.close()
+    return render_template('index.html', users=users, search_query=search_query)
+
 if __name__ == '__main__':
     init_db()
     # SECURITY WARNING: Debug mode should be disabled in production
